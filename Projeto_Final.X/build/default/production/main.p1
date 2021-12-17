@@ -1,0 +1,855 @@
+Version 4.0 HI-TECH Software Intermediate Code
+"10 main.c
+[; ;main.c: 10: typedef struct no{
+[s S1 `uc 1 `uc 1 `uc 1 `uc 1 ]
+[n S1 no nome tempo queima acucar ]
+"5 ./keypad.h
+[; ;./keypad.h: 5:  void kpDebounce(void);
+[v _kpDebounce `(v ~T0 @X0 0 ef ]
+"3
+[; ;./keypad.h: 3:  unsigned int kpRead(void);
+[v _kpRead `(ui ~T0 @X0 0 ef ]
+"5 ./lcd.h
+[; ;./lcd.h: 5:   void lcdString(char msg[]);
+[v _lcdString `(v ~T0 @X0 0 ef1`*uc ]
+"3
+[; ;./lcd.h: 3:   void lcdCommand(char value);
+[v _lcdCommand `(v ~T0 @X0 0 ef1`uc ]
+"10 ./delay.h
+[; ;./delay.h: 10: void atraso(unsigned char);
+[v _atraso `(v ~T0 @X0 0 ef1`uc ]
+[p mainexit ]
+"8 ./lcd.h
+[; ;./lcd.h: 8:   void lcdInit(void);
+[v _lcdInit `(v ~T0 @X0 0 ef ]
+"24 ./ssd.h
+[; ;./ssd.h: 24:  void ssdInit(void);
+[v _ssdInit `(v ~T0 @X0 0 ef ]
+"6 ./keypad.h
+[; ;./keypad.h: 6:  void kpInit(void);
+[v _kpInit `(v ~T0 @X0 0 ef ]
+"27 ./timer.h
+[; ;./timer.h: 27:  void timerInit(void);
+[v _timerInit `(v ~T0 @X0 0 ef ]
+"26
+[; ;./timer.h: 26:  void timerReset(unsigned int tempo);
+[v _timerReset `(v ~T0 @X0 0 ef1`ui ]
+"22 ./ssd.h
+[; ;./ssd.h: 22:  void ssdDigit(char val, char pos);
+[v _ssdDigit `(v ~T0 @X0 0 ef2`uc`uc ]
+"23
+[; ;./ssd.h: 23:  void ssdUpdate(void);
+[v _ssdUpdate `(v ~T0 @X0 0 ef ]
+"24 ./timer.h
+[; ;./timer.h: 24:  void timerWait(void);
+[v _timerWait `(v ~T0 @X0 0 ef ]
+"13 main.c
+[; ;main.c: 13: cafe caseiro,expresso,cappu,latte;
+[v _caseiro `S1 ~T0 @X0 1 e ]
+[v _expresso `S1 ~T0 @X0 1 e ]
+[v _cappu `S1 ~T0 @X0 1 e ]
+[v _latte `S1 ~T0 @X0 1 e ]
+"14
+[; ;main.c: 14: cafe escolhido;
+[v _escolhido `S1 ~T0 @X0 1 e ]
+"15
+[; ;main.c: 15: int seg = 0;
+[v _seg `i ~T0 @X0 1 e ]
+[i _seg
+-> 0 `i
+]
+"16
+[; ;main.c: 16: char start = 0,escolha=0,antes=4;
+[v _start `uc ~T0 @X0 1 e ]
+[i _start
+-> -> 0 `i `uc
+]
+[v _escolha `uc ~T0 @X0 1 e ]
+[i _escolha
+-> -> 0 `i `uc
+]
+[v _antes `uc ~T0 @X0 1 e ]
+[i _antes
+-> -> 4 `i `uc
+]
+"17
+[; ;main.c: 17: void cafes(){
+[v _cafes `(v ~T0 @X0 1 ef ]
+{
+[e :U _cafes ]
+[f ]
+"18
+[; ;main.c: 18:     caseiro.nome=1;
+[e = . _caseiro 0 -> -> 1 `i `uc ]
+"19
+[; ;main.c: 19:     caseiro.tempo=55;
+[e = . _caseiro 1 -> -> 55 `i `uc ]
+"20
+[; ;main.c: 20:     expresso.nome=2;
+[e = . _expresso 0 -> -> 2 `i `uc ]
+"21
+[; ;main.c: 21:     expresso.tempo=40;
+[e = . _expresso 1 -> -> 40 `i `uc ]
+"22
+[; ;main.c: 22:     cappu.nome=3;
+[e = . _cappu 0 -> -> 3 `i `uc ]
+"23
+[; ;main.c: 23:     cappu.tempo=90;
+[e = . _cappu 1 -> -> 90 `i `uc ]
+"24
+[; ;main.c: 24:     latte.nome=4;
+[e = . _latte 0 -> -> 4 `i `uc ]
+"25
+[; ;main.c: 25:     latte.tempo=120;
+[e = . _latte 1 -> -> 120 `i `uc ]
+"26
+[; ;main.c: 26: }
+[e :UE 2 ]
+}
+"28
+[; ;main.c: 28: void leTeclado(void){
+[v _leTeclado `(v ~T0 @X0 1 ef ]
+{
+[e :U _leTeclado ]
+[f ]
+"29
+[; ;main.c: 29:     unsigned int tecla = 16;
+[v _tecla `ui ~T0 @X0 1 a ]
+[e = _tecla -> -> 16 `i `ui ]
+"30
+[; ;main.c: 30:     kpDebounce();
+[e ( _kpDebounce ..  ]
+"31
+[; ;main.c: 31:     if(kpRead() != tecla){
+[e $ ! != ( _kpRead ..  _tecla 4  ]
+{
+"32
+[; ;main.c: 32:         tecla = kpRead();
+[e = _tecla ( _kpRead ..  ]
+"33
+[; ;main.c: 33:         if(escolha == 0){
+[e $ ! == -> _escolha `i -> 0 `i 5  ]
+{
+"34
+[; ;main.c: 34:             if(((tecla) & (1<<(0)))){
+[e $ ! != & _tecla -> << -> 1 `i -> 0 `i `ui -> -> 0 `i `ui 6  ]
+{
+"35
+[; ;main.c: 35:                 escolhido=caseiro;
+[e = _escolhido _caseiro ]
+"36
+[; ;main.c: 36:                 escolha=1;
+[e = _escolha -> -> 1 `i `uc ]
+"37
+[; ;main.c: 37:             }
+}
+[e :U 6 ]
+"38
+[; ;main.c: 38:             if(((tecla) & (1<<(1)))){
+[e $ ! != & _tecla -> << -> 1 `i -> 1 `i `ui -> -> 0 `i `ui 7  ]
+{
+"39
+[; ;main.c: 39:                 escolhido=expresso;
+[e = _escolhido _expresso ]
+"40
+[; ;main.c: 40:                 escolha=1;
+[e = _escolha -> -> 1 `i `uc ]
+"41
+[; ;main.c: 41:             }
+}
+[e :U 7 ]
+"42
+[; ;main.c: 42:             if(((tecla) & (1<<(2)))){
+[e $ ! != & _tecla -> << -> 1 `i -> 2 `i `ui -> -> 0 `i `ui 8  ]
+{
+"43
+[; ;main.c: 43:                 escolhido=cappu;
+[e = _escolhido _cappu ]
+"44
+[; ;main.c: 44:                 escolha=1;
+[e = _escolha -> -> 1 `i `uc ]
+"45
+[; ;main.c: 45:             }
+}
+[e :U 8 ]
+"46
+[; ;main.c: 46:             if(((tecla) & (1<<(3)))){
+[e $ ! != & _tecla -> << -> 1 `i -> 3 `i `ui -> -> 0 `i `ui 9  ]
+{
+"47
+[; ;main.c: 47:                 escolhido=latte;
+[e = _escolhido _latte ]
+"48
+[; ;main.c: 48:                 escolha=1;
+[e = _escolha -> -> 1 `i `uc ]
+"49
+[; ;main.c: 49:             }
+}
+[e :U 9 ]
+"50
+[; ;main.c: 50:         }
+}
+[e $U 10  ]
+"51
+[; ;main.c: 51:         else if(escolha == 1){
+[e :U 5 ]
+[e $ ! == -> _escolha `i -> 1 `i 11  ]
+{
+"52
+[; ;main.c: 52:             if(((tecla) & (1<<(8)))){
+[e $ ! != & _tecla -> << -> 1 `i -> 8 `i `ui -> -> 0 `i `ui 12  ]
+{
+"53
+[; ;main.c: 53:                 escolha=0;
+[e = _escolha -> -> 0 `i `uc ]
+"54
+[; ;main.c: 54:             }
+}
+[e :U 12 ]
+"55
+[; ;main.c: 55:             if(((tecla) & (1<<(6)))){
+[e $ ! != & _tecla -> << -> 1 `i -> 6 `i `ui -> -> 0 `i `ui 13  ]
+{
+"56
+[; ;main.c: 56:                 escolha=2;
+[e = _escolha -> -> 2 `i `uc ]
+"57
+[; ;main.c: 57:             }
+}
+[e :U 13 ]
+"58
+[; ;main.c: 58:         }
+}
+[e $U 14  ]
+"59
+[; ;main.c: 59:         else if(escolha == 2){
+[e :U 11 ]
+[e $ ! == -> _escolha `i -> 2 `i 15  ]
+{
+"60
+[; ;main.c: 60:             if(((tecla) & (1<<(0)))){
+[e $ ! != & _tecla -> << -> 1 `i -> 0 `i `ui -> -> 0 `i `ui 16  ]
+{
+"61
+[; ;main.c: 61:                 escolhido.queima=1;
+[e = . _escolhido 2 -> -> 1 `i `uc ]
+"62
+[; ;main.c: 62:                 escolha=3;
+[e = _escolha -> -> 3 `i `uc ]
+"63
+[; ;main.c: 63:             }
+}
+[e :U 16 ]
+"64
+[; ;main.c: 64:             if(((tecla) & (1<<(1)))){
+[e $ ! != & _tecla -> << -> 1 `i -> 1 `i `ui -> -> 0 `i `ui 17  ]
+{
+"65
+[; ;main.c: 65:                 escolhido.queima=2;
+[e = . _escolhido 2 -> -> 2 `i `uc ]
+"66
+[; ;main.c: 66:                 escolha=3;
+[e = _escolha -> -> 3 `i `uc ]
+"67
+[; ;main.c: 67:             }
+}
+[e :U 17 ]
+"68
+[; ;main.c: 68:             if(((tecla) & (1<<(2)))){
+[e $ ! != & _tecla -> << -> 1 `i -> 2 `i `ui -> -> 0 `i `ui 18  ]
+{
+"69
+[; ;main.c: 69:                 escolhido.queima=3;
+[e = . _escolhido 2 -> -> 3 `i `uc ]
+"70
+[; ;main.c: 70:                 escolha=3;
+[e = _escolha -> -> 3 `i `uc ]
+"71
+[; ;main.c: 71:             }
+}
+[e :U 18 ]
+"72
+[; ;main.c: 72:         }
+}
+[e $U 19  ]
+"73
+[; ;main.c: 73:         else if(escolha == 3){
+[e :U 15 ]
+[e $ ! == -> _escolha `i -> 3 `i 20  ]
+{
+"74
+[; ;main.c: 74:             if(((tecla) & (1<<(8)))){
+[e $ ! != & _tecla -> << -> 1 `i -> 8 `i `ui -> -> 0 `i `ui 21  ]
+{
+"75
+[; ;main.c: 75:                 escolhido.acucar=0;
+[e = . _escolhido 3 -> -> 0 `i `uc ]
+"76
+[; ;main.c: 76:                 seg=escolhido.tempo;
+[e = _seg -> . _escolhido 1 `i ]
+"77
+[; ;main.c: 77:                 escolha=4;
+[e = _escolha -> -> 4 `i `uc ]
+"78
+[; ;main.c: 78:                 start=1;
+[e = _start -> -> 1 `i `uc ]
+"79
+[; ;main.c: 79:             }
+}
+[e :U 21 ]
+"80
+[; ;main.c: 80:             if(((tecla) & (1<<(6)))){
+[e $ ! != & _tecla -> << -> 1 `i -> 6 `i `ui -> -> 0 `i `ui 22  ]
+{
+"81
+[; ;main.c: 81:                 escolhido.acucar=1;
+[e = . _escolhido 3 -> -> 1 `i `uc ]
+"82
+[; ;main.c: 82:                 seg=escolhido.tempo;
+[e = _seg -> . _escolhido 1 `i ]
+"83
+[; ;main.c: 83:                 escolha=4;
+[e = _escolha -> -> 4 `i `uc ]
+"84
+[; ;main.c: 84:                 start=1;
+[e = _start -> -> 1 `i `uc ]
+"85
+[; ;main.c: 85:             }
+}
+[e :U 22 ]
+"86
+[; ;main.c: 86:         }
+}
+[e :U 20 ]
+[e :U 19 ]
+[e :U 14 ]
+[e :U 10 ]
+"87
+[; ;main.c: 87:     }
+}
+[e :U 4 ]
+"88
+[; ;main.c: 88: }
+[e :UE 3 ]
+}
+"90
+[; ;main.c: 90: void ImprimeCafe(){
+[v _ImprimeCafe `(v ~T0 @X0 1 ef ]
+{
+[e :U _ImprimeCafe ]
+[f ]
+"91
+[; ;main.c: 91:     if(escolhido.nome==1){
+[e $ ! == -> . _escolhido 0 `i -> 1 `i 24  ]
+{
+"92
+[; ;main.c: 92:         lcdString("Cafe caseiro");
+[e ( _lcdString (1 :s 1C ]
+"93
+[; ;main.c: 93:     }
+}
+[e $U 25  ]
+"94
+[; ;main.c: 94:     else if(escolhido.nome==2){
+[e :U 24 ]
+[e $ ! == -> . _escolhido 0 `i -> 2 `i 26  ]
+{
+"95
+[; ;main.c: 95:         lcdString("Cafe Expresso");
+[e ( _lcdString (1 :s 2C ]
+"96
+[; ;main.c: 96:     }
+}
+[e $U 27  ]
+"97
+[; ;main.c: 97:     else if(escolhido.nome==3){
+[e :U 26 ]
+[e $ ! == -> . _escolhido 0 `i -> 3 `i 28  ]
+{
+"98
+[; ;main.c: 98:         lcdString("Cappuccino");
+[e ( _lcdString (1 :s 3C ]
+"99
+[; ;main.c: 99:     }
+}
+[e $U 29  ]
+"100
+[; ;main.c: 100:     else if(escolhido.nome==4){
+[e :U 28 ]
+[e $ ! == -> . _escolhido 0 `i -> 4 `i 30  ]
+{
+"101
+[; ;main.c: 101:         lcdString("Latte Macchiato");
+[e ( _lcdString (1 :s 4C ]
+"102
+[; ;main.c: 102:     }
+}
+[e :U 30 ]
+[e :U 29 ]
+[e :U 27 ]
+[e :U 25 ]
+"103
+[; ;main.c: 103:     if(escolha!=1)
+[e $ ! != -> _escolha `i -> 1 `i 31  ]
+"104
+[; ;main.c: 104:         if(escolhido.acucar==0){
+[e $ ! == -> . _escolhido 3 `i -> 0 `i 32  ]
+{
+"105
+[; ;main.c: 105:             lcdString("S/A");
+[e ( _lcdString (1 :s 5C ]
+"106
+[; ;main.c: 106:         }
+}
+[e $U 33  ]
+"107
+[; ;main.c: 107:         else if(escolhido.acucar==1){
+[e :U 32 ]
+[e $ ! == -> . _escolhido 3 `i -> 1 `i 34  ]
+{
+"108
+[; ;main.c: 108:             lcdString("C/A");
+[e ( _lcdString (1 :s 6C ]
+"109
+[; ;main.c: 109:         }
+}
+[e :U 34 ]
+[e :U 33 ]
+[e :U 31 ]
+"110
+[; ;main.c: 110: }
+[e :UE 23 ]
+}
+"112
+[; ;main.c: 112: void lcd(){
+[v _lcd `(v ~T0 @X0 1 ef ]
+{
+[e :U _lcd ]
+[f ]
+"113
+[; ;main.c: 113:     if(escolha!=antes){
+[e $ ! != -> _escolha `i -> _antes `i 36  ]
+{
+"114
+[; ;main.c: 114:         lcdCommand(0x80);
+[e ( _lcdCommand (1 -> -> 128 `i `uc ]
+"115
+[; ;main.c: 115:         lcdCommand(0x01);
+[e ( _lcdCommand (1 -> -> 1 `i `uc ]
+"116
+[; ;main.c: 116:         lcdCommand(0xC0);
+[e ( _lcdCommand (1 -> -> 192 `i `uc ]
+"117
+[; ;main.c: 117:         lcdCommand(0x01);
+[e ( _lcdCommand (1 -> -> 1 `i `uc ]
+"118
+[; ;main.c: 118:         switch (escolha){
+[e $U 38  ]
+{
+"119
+[; ;main.c: 119:             case 0:
+[e :U 39 ]
+"120
+[; ;main.c: 120:                 lcdCommand(0x80);
+[e ( _lcdCommand (1 -> -> 128 `i `uc ]
+"121
+[; ;main.c: 121:                 lcdString("Escolha 1 cafe:");
+[e ( _lcdString (1 :s 7C ]
+"122
+[; ;main.c: 122:                 lcdCommand(0xC0);
+[e ( _lcdCommand (1 -> -> 192 `i `uc ]
+"123
+[; ;main.c: 123:                 break;
+[e $U 37  ]
+"124
+[; ;main.c: 124:             case 1:
+[e :U 40 ]
+"125
+[; ;main.c: 125:                 lcdCommand(0x80);
+[e ( _lcdCommand (1 -> -> 128 `i `uc ]
+"126
+[; ;main.c: 126:                 ImprimeCafe();
+[e ( _ImprimeCafe ..  ]
+"127
+[; ;main.c: 127:                 lcdCommand(0xC0);
+[e ( _lcdCommand (1 -> -> 192 `i `uc ]
+"128
+[; ;main.c: 128:                 lcdString("8-Nao    6-Sim");
+[e ( _lcdString (1 :s 8C ]
+"129
+[; ;main.c: 129:                 break;
+[e $U 37  ]
+"130
+[; ;main.c: 130:             case 2:
+[e :U 41 ]
+"131
+[; ;main.c: 131:                 lcdCommand(0x80);
+[e ( _lcdCommand (1 -> -> 128 `i `uc ]
+"132
+[; ;main.c: 132:                 lcdString("Normal/Forte/Extra");
+[e ( _lcdString (1 :s 9C ]
+"133
+[; ;main.c: 133:                 lcdCommand(0xC0);
+[e ( _lcdCommand (1 -> -> 192 `i `uc ]
+"134
+[; ;main.c: 134:                 lcdString("0-N 1-F 2-EF");
+[e ( _lcdString (1 :s 10C ]
+"135
+[; ;main.c: 135:                 break;
+[e $U 37  ]
+"136
+[; ;main.c: 136:             case 3:
+[e :U 42 ]
+"137
+[; ;main.c: 137:                 lcdCommand(0x80);
+[e ( _lcdCommand (1 -> -> 128 `i `uc ]
+"138
+[; ;main.c: 138:                 lcdString("Quer acucar??");
+[e ( _lcdString (1 :s 11C ]
+"139
+[; ;main.c: 139:                 lcdCommand(0xC0);
+[e ( _lcdCommand (1 -> -> 192 `i `uc ]
+"140
+[; ;main.c: 140:                 lcdString("8-Nao    6-Sim");
+[e ( _lcdString (1 :s 12C ]
+"141
+[; ;main.c: 141:                 break;
+[e $U 37  ]
+"142
+[; ;main.c: 142:             case 4:
+[e :U 43 ]
+"143
+[; ;main.c: 143:                 lcdCommand(0x80);
+[e ( _lcdCommand (1 -> -> 128 `i `uc ]
+"144
+[; ;main.c: 144:                 lcdString("Fazendo:");
+[e ( _lcdString (1 :s 13C ]
+"145
+[; ;main.c: 145:                 if(escolhido.queima==1){
+[e $ ! == -> . _escolhido 2 `i -> 1 `i 44  ]
+{
+"146
+[; ;main.c: 146:                     lcdString("Normal");
+[e ( _lcdString (1 :s 14C ]
+"147
+[; ;main.c: 147:                 }
+}
+[e $U 45  ]
+"148
+[; ;main.c: 148:                 else if(escolhido.queima==2){
+[e :U 44 ]
+[e $ ! == -> . _escolhido 2 `i -> 2 `i 46  ]
+{
+"149
+[; ;main.c: 149:                     lcdString("Forte");
+[e ( _lcdString (1 :s 15C ]
+"150
+[; ;main.c: 150:                 }
+}
+[e $U 47  ]
+"151
+[; ;main.c: 151:                 else if(escolhido.queima==3){
+[e :U 46 ]
+[e $ ! == -> . _escolhido 2 `i -> 3 `i 48  ]
+{
+"152
+[; ;main.c: 152:                     lcdString("Ex.Forte");
+[e ( _lcdString (1 :s 16C ]
+"153
+[; ;main.c: 153:                 }
+}
+[e :U 48 ]
+[e :U 47 ]
+[e :U 45 ]
+"154
+[; ;main.c: 154:                 lcdCommand(0xC0);
+[e ( _lcdCommand (1 -> -> 192 `i `uc ]
+"155
+[; ;main.c: 155:                 ImprimeCafe();
+[e ( _ImprimeCafe ..  ]
+"156
+[; ;main.c: 156:                 break;
+[e $U 37  ]
+"157
+[; ;main.c: 157:             default:
+[e :U 49 ]
+"158
+[; ;main.c: 158:                 break;
+[e $U 37  ]
+"159
+[; ;main.c: 159:         }
+}
+[e $U 37  ]
+[e :U 38 ]
+[e [\ -> _escolha `i , $ -> 0 `i 39
+ , $ -> 1 `i 40
+ , $ -> 2 `i 41
+ , $ -> 3 `i 42
+ , $ -> 4 `i 43
+ 49 ]
+[e :U 37 ]
+"160
+[; ;main.c: 160:     }
+}
+[e :U 36 ]
+"161
+[; ;main.c: 161:     antes=escolha;
+[e = _antes _escolha ]
+"162
+[; ;main.c: 162: }
+[e :UE 35 ]
+}
+"164
+[; ;main.c: 164: void termina(){
+[v _termina `(v ~T0 @X0 1 ef ]
+{
+[e :U _termina ]
+[f ]
+"165
+[; ;main.c: 165:     escolha=0;
+[e = _escolha -> -> 0 `i `uc ]
+"166
+[; ;main.c: 166:     lcdCommand(0x80);
+[e ( _lcdCommand (1 -> -> 128 `i `uc ]
+"167
+[; ;main.c: 167:     lcdCommand(0x01);
+[e ( _lcdCommand (1 -> -> 1 `i `uc ]
+"168
+[; ;main.c: 168:     lcdCommand(0x80);
+[e ( _lcdCommand (1 -> -> 128 `i `uc ]
+"169
+[; ;main.c: 169:     lcdString("Pegue : ");
+[e ( _lcdString (1 :s 17C ]
+"170
+[; ;main.c: 170:     if(escolhido.queima==1){
+[e $ ! == -> . _escolhido 2 `i -> 1 `i 51  ]
+{
+"171
+[; ;main.c: 171:         lcdString("Normal");
+[e ( _lcdString (1 :s 18C ]
+"172
+[; ;main.c: 172:     }
+}
+[e $U 52  ]
+"173
+[; ;main.c: 173:     else if(escolhido.queima==2){
+[e :U 51 ]
+[e $ ! == -> . _escolhido 2 `i -> 2 `i 53  ]
+{
+"174
+[; ;main.c: 174:         lcdString("Forte");
+[e ( _lcdString (1 :s 19C ]
+"175
+[; ;main.c: 175:     }
+}
+[e $U 54  ]
+"176
+[; ;main.c: 176:     else if(escolhido.queima==3){
+[e :U 53 ]
+[e $ ! == -> . _escolhido 2 `i -> 3 `i 55  ]
+{
+"177
+[; ;main.c: 177:         lcdString("Ex.Forte");
+[e ( _lcdString (1 :s 20C ]
+"178
+[; ;main.c: 178:     }
+}
+[e :U 55 ]
+[e :U 54 ]
+[e :U 52 ]
+"179
+[; ;main.c: 179:     lcdCommand(0xC0);
+[e ( _lcdCommand (1 -> -> 192 `i `uc ]
+"180
+[; ;main.c: 180:     ImprimeCafe();
+[e ( _ImprimeCafe ..  ]
+"181
+[; ;main.c: 181:     atraso(300);
+[e ( _atraso (1 -> -> 300 `i `uc ]
+"182
+[; ;main.c: 182: }
+[e :UE 50 ]
+}
+[v $root$_main `(v ~T0 @X0 0 e ]
+"184
+[; ;main.c: 184: void main(void) {
+[v _main `(v ~T0 @X0 1 ef ]
+{
+[e :U _main ]
+[f ]
+"185
+[; ;main.c: 185:     lcdInit();
+[e ( _lcdInit ..  ]
+"186
+[; ;main.c: 186:     ssdInit();
+[e ( _ssdInit ..  ]
+"187
+[; ;main.c: 187:     kpInit();
+[e ( _kpInit ..  ]
+"188
+[; ;main.c: 188:     timerInit();
+[e ( _timerInit ..  ]
+"189
+[; ;main.c: 189:     cafes();
+[e ( _cafes ..  ]
+"190
+[; ;main.c: 190:     unsigned char slot,tempo;
+[v _slot `uc ~T0 @X0 1 a ]
+[v _tempo `uc ~T0 @X0 1 a ]
+"191
+[; ;main.c: 191:     while(1){
+[e :U 58 ]
+{
+"192
+[; ;main.c: 192:         timerReset(10);
+[e ( _timerReset (1 -> -> 10 `i `ui ]
+"193
+[; ;main.c: 193:         switch(slot){
+[e $U 61  ]
+{
+"194
+[; ;main.c: 194:             case 0:
+[e :U 62 ]
+"195
+[; ;main.c: 195:                 leTeclado();
+[e ( _leTeclado ..  ]
+"196
+[; ;main.c: 196:                 slot = 1;
+[e = _slot -> -> 1 `i `uc ]
+"197
+[; ;main.c: 197:                 break;
+[e $U 60  ]
+"198
+[; ;main.c: 198:             case 1:
+[e :U 63 ]
+"199
+[; ;main.c: 199:                 lcd();
+[e ( _lcd ..  ]
+"200
+[; ;main.c: 200:                 slot = 2;
+[e = _slot -> -> 2 `i `uc ]
+"201
+[; ;main.c: 201:                 break;
+[e $U 60  ]
+"202
+[; ;main.c: 202:             case 2:
+[e :U 64 ]
+"203
+[; ;main.c: 203:                 if(tempo>100){
+[e $ ! > -> _tempo `i -> 100 `i 65  ]
+{
+"204
+[; ;main.c: 204:                     tempo=0;
+[e = _tempo -> -> 0 `i `uc ]
+"205
+[; ;main.c: 205:                     if(start!=0){
+[e $ ! != -> _start `i -> 0 `i 66  ]
+{
+"206
+[; ;main.c: 206:                         seg--;
+[e -- _seg -> 1 `i ]
+"207
+[; ;main.c: 207:                         if((seg<0)){
+[e $ ! < _seg -> 0 `i 67  ]
+{
+"208
+[; ;main.c: 208:                             start=0;
+[e = _start -> -> 0 `i `uc ]
+"209
+[; ;main.c: 209:                             seg=0;
+[e = _seg -> 0 `i ]
+"210
+[; ;main.c: 210:                             termina();
+[e ( _termina ..  ]
+"211
+[; ;main.c: 211:                         }
+}
+[e :U 67 ]
+"212
+[; ;main.c: 212:                     }
+}
+[e :U 66 ]
+"213
+[; ;main.c: 213:                 }
+}
+[e :U 65 ]
+"214
+[; ;main.c: 214:                 ssdDigit(((seg/600) %6), 0);
+[e ( _ssdDigit (2 , -> % / _seg -> 600 `i -> 6 `i `uc -> -> 0 `i `uc ]
+"215
+[; ;main.c: 215:                 ssdDigit(((seg/60) %10), 1);
+[e ( _ssdDigit (2 , -> % / _seg -> 60 `i -> 10 `i `uc -> -> 1 `i `uc ]
+"216
+[; ;main.c: 216:                 ssdDigit(((seg/10) %6), 2);
+[e ( _ssdDigit (2 , -> % / _seg -> 10 `i -> 6 `i `uc -> -> 2 `i `uc ]
+"217
+[; ;main.c: 217:                 ssdDigit(((seg/1) %10), 3);
+[e ( _ssdDigit (2 , -> % / _seg -> 1 `i -> 10 `i `uc -> -> 3 `i `uc ]
+"218
+[; ;main.c: 218:                 slot = 0;
+[e = _slot -> -> 0 `i `uc ]
+"219
+[; ;main.c: 219:                 break;
+[e $U 60  ]
+"220
+[; ;main.c: 220:             default:
+[e :U 68 ]
+"221
+[; ;main.c: 221:                 slot = 0;
+[e = _slot -> -> 0 `i `uc ]
+"222
+[; ;main.c: 222:                 break;
+[e $U 60  ]
+"223
+[; ;main.c: 223:         }
+}
+[e $U 60  ]
+[e :U 61 ]
+[e [\ -> _slot `i , $ -> 0 `i 62
+ , $ -> 1 `i 63
+ , $ -> 2 `i 64
+ 68 ]
+[e :U 60 ]
+"224
+[; ;main.c: 224:         if(start!=0){tempo++;}
+[e $ ! != -> _start `i -> 0 `i 69  ]
+{
+[e ++ _tempo -> -> 1 `i `uc ]
+}
+[e :U 69 ]
+"225
+[; ;main.c: 225:         ssdUpdate();
+[e ( _ssdUpdate ..  ]
+"226
+[; ;main.c: 226:         timerWait();
+[e ( _timerWait ..  ]
+"227
+[; ;main.c: 227:     }
+}
+[e :U 57 ]
+[e $U 58  ]
+[e :U 59 ]
+"228
+[; ;main.c: 228: }
+[e :UE 56 ]
+}
+[a 4C 76 97 116 116 101 32 77 97 99 99 104 105 97 116 111 0 ]
+[a 2C 67 97 102 101 32 69 120 112 114 101 115 115 111 0 ]
+[a 1C 67 97 102 101 32 99 97 115 101 105 114 111 0 ]
+[a 3C 67 97 112 112 117 99 99 105 110 111 0 ]
+[a 8C 56 45 78 97 111 32 32 32 32 54 45 83 105 109 0 ]
+[a 12C 56 45 78 97 111 32 32 32 32 54 45 83 105 109 0 ]
+[a 14C 78 111 114 109 97 108 0 ]
+[a 18C 78 111 114 109 97 108 0 ]
+[a 16C 69 120 46 70 111 114 116 101 0 ]
+[a 20C 69 120 46 70 111 114 116 101 0 ]
+[a 15C 70 111 114 116 101 0 ]
+[a 19C 70 111 114 116 101 0 ]
+[a 9C 78 111 114 109 97 108 47 70 111 114 116 101 47 69 120 116 114 97 0 ]
+[a 10C 48 45 78 32 49 45 70 32 50 45 69 70 0 ]
+[a 5C 83 47 65 0 ]
+[a 6C 67 47 65 0 ]
+[a 11C 81 117 101 114 32 97 99 117 99 97 114 63 63 0 ]
+[a 13C 70 97 122 101 110 100 111 58 0 ]
+[a 7C 69 115 99 111 108 104 97 32 49 32 99 97 102 101 58 0 ]
+[a 17C 80 101 103 117 101 32 58 32 0 ]
